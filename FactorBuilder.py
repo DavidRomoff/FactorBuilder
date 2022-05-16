@@ -11,7 +11,8 @@ bookValue = np.random.normal(80,10,n)
 returns = np.random.normal(.01,.005,n)
 df = pd.DataFrame(data=zip(returns,marketCap,bookValue),columns=['returns','marketCap','bookValue'],index=range(1,n+1))
 
-def CategoryBuilder(X,category_colname,cutoffs,labels,categoryType = 'percentile',categoryTitle = 'categories'):
+def CategoryBuilder(X: pd.DataFrame,category_colname: str,cutoffs: str,labels: str,
+                    categoryType = 'percentile',categoryTitle = 'categories') -> None: 
 
     if categoryType == 'value':
         X[categoryTitle] = 'unlabeled'
@@ -21,7 +22,7 @@ def CategoryBuilder(X,category_colname,cutoffs,labels,categoryType = 'percentile
             X.loc[ind_category,categoryTitle] = label
             lastcutoff = cutoff
 
-def FactorBuilder(X,returns_colname,risk_colname,category_colname):
+def FactorBuilder(X: pd.DataFrame,returns_colname: str,risk_colname: str,category_colname: str):
 
     ind_highLow = np.logical_or(X[risk_colname]=='high',X[risk_colname]=='low')
     X_aggregated = X.loc[ind_highLow,:].groupby([category_colname,risk_colname]).mean()
